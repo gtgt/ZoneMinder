@@ -17,10 +17,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // 
 
-#if __i386__
-#define ZM_STRIP_SSE 1
-#endif
-
 #ifndef ZM_IMAGE_H
 #define ZM_IMAGE_H
 
