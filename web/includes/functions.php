@@ -1416,12 +1416,12 @@ function getLoad() {
 }
 
 function getDiskPercent() {
-  $total = disk_total_space(ZM_DIR_EVENTS);
+  $total = disk_total_space(realpath(ZM_DIR_EVENTS));
   if ( ! $total ) {
     Error("disk_total_space returned false for " . ZM_DIR_EVENTS );
     return 0;
   }
-  $free = disk_free_space(ZM_DIR_EVENTS);
+  $free = disk_free_space(realpath(ZM_DIR_EVENTS));
   if ( ! $free ) {
     Error("disk_free_space returned false for " . ZM_DIR_EVENTS );
   }
