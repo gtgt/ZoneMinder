@@ -258,10 +258,10 @@ void ssedetect() {
   );
   
   if (r_ecx & 0x00000200) {
-    sseversion = 35; /* SSSE3 */
+    sseversion = 20; /* SSSE3 */
     Debug(1,"Detected a x86\\x86-64 processor with SSSE3");
   } else if (r_ecx & 0x00000001) {
-    sseversion = 30; /* SSE3 */
+    sseversion = 20; /* SSE3 */
     Debug(1,"Detected a x86\\x86-64 processor with SSE3");
   } else if (r_edx & 0x04000000) {
     sseversion = 20; /* SSE2 */

@@ -67,3 +67,4 @@ src/zmu
 web/includes/config.php
 zm.conf
 zmconfgen.pl
+build

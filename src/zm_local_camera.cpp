@@ -466,13 +466,8 @@ LocalCamera::LocalCamera( int p_id, const std::string &p_device, int p_channel, 
           subpixelorder = ZM_SUBPIX_ORDER_NONE;
         } else if(palette == V4L2_PIX_FMT_YUYV && colours == ZM_COLOUR_GRAY8) {
           /* Fast YUYV->Grayscale conversion by extracting the Y channel */
-          if(config.cpu_extensions && sseversion >= 35) {
-            conversion_fptr = &ssse3_convert_yuyv_gray8;
-            Debug(2,"Using SSSE3 YUYV->grayscale fast conversion");
-          } else {
-            conversion_fptr = &std_convert_yuyv_gray8;
-            Debug(2,"Using standard YUYV->grayscale fast conversion");
-          }
+          conversion_fptr = &std_convert_yuyv_gray8;
+          Debug(2,"Using standard YUYV->grayscale fast conversion");
           subpixelorder = ZM_SUBPIX_ORDER_NONE;
         } else if(palette == V4L2_PIX_FMT_YUYV && colours == ZM_COLOUR_RGB24) {
           conversion_fptr = &zm_convert_yuyv_rgb;
@@ -578,13 +573,8 @@ LocalCamera::LocalCamera( int p_id, const std::string &p_device, int p_channel, 
           }
         } else if((palette == VIDEO_PALETTE_YUYV || palette == VIDEO_PALETTE_YUV422) && colours == ZM_COLOUR_GRAY8) {
           /* Fast YUYV->Grayscale conversion by extracting the Y channel */
-          if(config.cpu_extensions && sseversion >= 35) {
-            conversion_fptr = &ssse3_convert_yuyv_gray8;
-            Debug(2,"Using SSSE3 YUYV->grayscale fast conversion");
-          } else {
-            conversion_fptr = &std_convert_yuyv_gray8;
-            Debug(2,"Using standard YUYV->grayscale fast conversion");
-          }
+          conversion_fptr = &std_convert_yuyv_gray8;
+          Debug(2,"Using standard YUYV->grayscale fast conversion");
           subpixelorder = ZM_SUBPIX_ORDER_NONE;
         } else if((palette == VIDEO_PALETTE_YUYV || palette == VIDEO_PALETTE_YUV422) && colours == ZM_COLOUR_RGB24) {
           conversion_fptr = &zm_convert_yuyv_rgb;

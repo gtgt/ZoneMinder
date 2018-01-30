@@ -97,14 +97,14 @@ var SCALE_BASE = <?php echo SCALE_BASE ?>;
 
 var SOUND_ON_ALARM = <?php echo ZM_WEB_SOUND_ON_ALARM ?>;
 
-var streamMode = "<?php echo $streamMode ?>";
+var streamMode = "<?php echo isset($streamMode) ? $streamMode : '' ?>";
 
 var connKey = '<?php echo $connkey ?>';
 
 var monitorId = <?php echo $monitor->Id() ?>;
 var monitorUrl = '<?php echo ( $monitor->Server()->Url() ) ?>';
 
-var streamSrc = "<?php echo preg_replace( '/&amp;/', '&', $streamSrc ) ?>";
+var streamSrc = "<?php echo preg_replace( '/&amp;/', '&', isset($streamSrc) ? $streamSrc : '' ) ?>";
 
 var statusRefreshTimeout = <?php echo 1000*ZM_WEB_REFRESH_STATUS ?>;
 var imageRefreshTimeout = <?php echo 1000*ZM_WEB_REFRESH_IMAGE ?>;
