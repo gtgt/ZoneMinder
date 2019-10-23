@@ -52,7 +52,7 @@ static int vidioctl(int fd, int request, void *arg) {
 #if HAVE_LIBSWSCALE
 static _AVPIXELFORMAT getFfPixFormatFromV4lPalette(int v4l_version, int palette) {
   _AVPIXELFORMAT pixFormat = AV_PIX_FMT_NONE;
-     
+
 #if ZM_HAS_V4L2
   if ( v4l_version == 2 ) {
     switch( palette ) {
@@ -504,13 +504,8 @@ LocalCamera::LocalCamera(
           subpixelorder = ZM_SUBPIX_ORDER_NONE;
         } else if ( palette == V4L2_PIX_FMT_YUYV && colours == ZM_COLOUR_GRAY8 ) {
           /* Fast YUYV->Grayscale conversion by extracting the Y channel */
-          if ( config.cpu_extensions && sseversion >= 35 ) {
-            conversion_fptr = &ssse3_convert_yuyv_gray8;
-            Debug(2,"Using SSSE3 YUYV->grayscale fast conversion");
-          } else {
-            conversion_fptr = &std_convert_yuyv_gray8;
-            Debug(2,"Using standard YUYV->grayscale fast conversion");
-          }
+          conversion_fptr = &std_convert_yuyv_gray8;
+          Debug(2,"Using standard YUYV->grayscale fast conversion");
           subpixelorder = ZM_SUBPIX_ORDER_NONE;
         } else if ( palette == V4L2_PIX_FMT_YUYV && colours == ZM_COLOUR_RGB24 ) {
           conversion_fptr = &zm_convert_yuyv_rgb;
@@ -616,13 +611,8 @@ LocalCamera::LocalCamera(
           }
         } else if ( (palette == VIDEO_PALETTE_YUYV || palette == VIDEO_PALETTE_YUV422) && colours == ZM_COLOUR_GRAY8 ) {
           /* Fast YUYV->Grayscale conversion by extracting the Y channel */
-          if ( config.cpu_extensions && sseversion >= 35 ) {
-            conversion_fptr = &ssse3_convert_yuyv_gray8;
-            Debug(2,"Using SSSE3 YUYV->grayscale fast conversion");
-          } else {
-            conversion_fptr = &std_convert_yuyv_gray8;
-            Debug(2,"Using standard YUYV->grayscale fast conversion");
-          }
+          conversion_fptr = &std_convert_yuyv_gray8;
+          Debug(2,"Using standard YUYV->grayscale fast conversion");
           subpixelorder = ZM_SUBPIX_ORDER_NONE;
         } else if ( (palette == VIDEO_PALETTE_YUYV || palette == VIDEO_PALETTE_YUV422) && colours == ZM_COLOUR_RGB24 ) {
           conversion_fptr = &zm_convert_yuyv_rgb;
@@ -648,7 +638,7 @@ LocalCamera::LocalCamera(
       }
     }
   }
-#endif // ZM_HAS_V4L1    
+#endif // ZM_HAS_V4L1
 
   last_camera = this;
   Debug(3,"Selected subpixelorder: %u",subpixelorder);
@@ -713,7 +703,7 @@ void LocalCamera::Initialise() {
   if ( (vid_fd = open(device.c_str(), O_RDWR, 0)) < 0 )
     Fatal("Failed to open video device %s: %s", device.c_str(), strerror(errno));
 
-  struct stat st; 
+  struct stat st;
   if ( stat(device.c_str(), &st) < 0 )
     Fatal("Failed to stat video device %s: %s", device.c_str(), strerror(errno));
 
@@ -779,7 +769,7 @@ void LocalCamera::Initialise() {
           Fatal("Failed to set video format: %s", strerror(errno));
         }
       }
-    } else {        
+    } else {
       if ( vidioctl(vid_fd, VIDIOC_S_FMT, &v4l2_data.fmt) < 0 ) {
         Fatal("Failed to set video format: %s", strerror(errno));
       }
@@ -1429,7 +1419,7 @@ bool LocalCamera::GetCurrentSettings( const char *device, char *output, int vers
       } while ( formatIndex++ >= 0 );
       if ( !verbose )
         output[strlen(output)-1] = '|';
-      else 
+      else
         sprintf(output+strlen(output), "Crop Capabilities\n");
 
       struct v4l2_cropcap cropcap;
@@ -1450,7 +1440,7 @@ bool LocalCamera::GetCurrentSettings( const char *device, char *output, int vers
       } else {
         struct v4l2_crop crop;
         memset(&crop, 0, sizeof(crop));
-        crop.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;  
+        crop.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
         if ( vidioctl(vid_fd, VIDIOC_G_CROP, &crop) < 0 ) {
           if ( errno != EINVAL ) {
@@ -1462,7 +1452,7 @@ bool LocalCamera::GetCurrentSettings( const char *device, char *output, int vers
             sprintf(output+strlen(output), "  Cropping is not supported\n");
           } else {
             /* Send fake crop bounds to not confuse things parsing this, such as monitor probe */
-            sprintf(output+strlen(output), "B:%dx%d|",0,0); 
+            sprintf(output+strlen(output), "B:%dx%d|",0,0);
           }
         } else {
           /* Cropping supported */
@@ -1485,7 +1475,7 @@ bool LocalCamera::GetCurrentSettings( const char *device, char *output, int vers
         if ( vidioctl(vid_fd, VIDIOC_ENUMINPUT, &input) < 0 ) {
           if ( errno == EINVAL ) {
             break;
-          } 
+          }
           Error("Failed to enumerate input %d: %s", input.index, strerror(errno));
           if ( verbose )
             sprintf(output, "Error, failed to enumerate input %d: %s\n", input.index, strerror(errno));
@@ -2067,7 +2057,7 @@ int LocalCamera::Capture(Image &image) {
       buffer = v4l1_data.bufptr+v4l1_data.frames.offsets[capture_frame];
     }
 #endif // ZM_HAS_V4L1
-  } /* prime capture */    
+  } /* prime capture */
 
   if ( conversion_type != 0 ) {
 

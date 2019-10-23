@@ -1353,7 +1353,7 @@ function parseFilter(&$filter, $saveToSession=false, $querySep='&amp;') {
 function addFilterTerm($filter, $position, $term=false) {
   if ( $position < 0 )
     $position = 0;
-  
+
   if ( !isset($filter['Query']['terms']) )
     $filter['Query']['terms'] = array();
   else if ( $position > count($filter['Query']['terms']) )
@@ -1470,7 +1470,7 @@ function getLoad() {
 }
 
 function getDiskPercent($path = ZM_DIR_EVENTS) {
-  $total = disk_total_space($path);
+  $total = disk_total_space(realpath($path));
   if ( $total === false ) {
     Error('disk_total_space returned false. Verify the web account user has access to ' . $path);
     return 0;
@@ -1478,7 +1478,7 @@ function getDiskPercent($path = ZM_DIR_EVENTS) {
     Error('disk_total_space indicates the following path has a filesystem size of zero bytes ' . $path);
     return 100;
   }
-  $free = disk_free_space($path);
+  $free = disk_free_space(realpath($path));
   if ( $free === false ) {
     Error('disk_free_space returned false. Verify the web account user has access to ' . $path);
   }
@@ -1545,7 +1545,7 @@ function systemStats() {
 function getcpus() {
 
   if ( is_readable('/proc/cpuinfo') ) { # Works on Linux
-    preg_match_all('/^processor/m', file_get_contents('/proc/cpuinfo'), $matches); 
+    preg_match_all('/^processor/m', file_get_contents('/proc/cpuinfo'), $matches);
     $num_cpus = count($matches[0]);
   } else { # Works on BSD
     $matches = explode(':', shell_exec('sysctl hw.ncpu'));
@@ -2325,8 +2325,8 @@ function getStreamHTML($monitor, $options = array()) {
       return getImageStreamHTML( 'liveStream'.$monitor->Id(), $streamSrc, $options['width'], $options['height'], $monitor->Name());
     elseif ( canStreamApplet() )
       // Helper, empty widths and heights really don't work.
-      return getHelperStream( 'liveStream'.$monitor->Id(), $streamSrc, 
-          $options['width'] ? $options['width'] : $monitor->Width(), 
+      return getHelperStream( 'liveStream'.$monitor->Id(), $streamSrc,
+          $options['width'] ? $options['width'] : $monitor->Width(),
           $options['height'] ? $options['height'] : $monitor->Height(),
           $monitor->Name());
   } else {
@@ -2385,8 +2385,8 @@ function check_timezone() {
     'TIME_FORMAT(TIMEDIFF(NOW(), UTC_TIMESTAMP),\'%H%i\')'
   ));
 
-  #Logger::Debug("System timezone offset determine to be: $sys_tzoffset,\x20 
-                 #PHP timezone offset determine to be: $php_tzoffset,\x20 
+  #Logger::Debug("System timezone offset determine to be: $sys_tzoffset,\x20
+                 #PHP timezone offset determine to be: $php_tzoffset,\x20
                  #Mysql timezone offset determine to be: $mysql_tzoffset
                #");
 
@@ -2401,7 +2401,7 @@ function check_timezone() {
 
 }
 
-function unparse_url($parsed_url, $substitutions = array() ) { 
+function unparse_url($parsed_url, $substitutions = array() ) {
   $fields = array('scheme','host','port','user','pass','path','query','fragment');
 
   foreach ( $fields as $field ) {
@@ -2409,16 +2409,16 @@ function unparse_url($parsed_url, $substitutions = array() ) {
       $parsed_url[$field] = $substitutions[$field];
     }
   }
-  $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : ''; 
-  $host     = isset($parsed_url['host']) ? $parsed_url['host'] : ''; 
-  $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : ''; 
-  $user     = isset($parsed_url['user']) ? $parsed_url['user'] : ''; 
-  $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : ''; 
-  $pass     = ($user || $pass) ? "$pass@" : ''; 
-  $path     = isset($parsed_url['path']) ? $parsed_url['path'] : ''; 
-  $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : ''; 
-  $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : ''; 
-  return "$scheme$user$pass$host$port$path$query$fragment"; 
+  $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+  $host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+  $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+  $user     = isset($parsed_url['user']) ? $parsed_url['user'] : '';
+  $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
+  $pass     = ($user || $pass) ? "$pass@" : '';
+  $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+  $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
+  $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
+  return "$scheme$user$pass$host$port$path$query$fragment";
 }
 
 // PP - POST request handler for PHP which does not need extensions

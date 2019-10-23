@@ -76,7 +76,7 @@ inline static void DumpBuffer(uint8_t* buffer, int buffertype) {
 		*/
     } else {
       Error("Unknown buffer type in DumpBuffer(%d)", buffertype);
-    } 
+    }
 	}
 }
 
@@ -127,7 +127,7 @@ protected:
 	}
 	
 	inline void AllocImgBuffer(size_t p_bufsize) {
-		if ( buffer ) 
+		if ( buffer )
 			DumpImgBuffer();
 		
 		buffer = AllocBuffer(p_bufsize);
@@ -218,12 +218,12 @@ public:
 	bool ReadJpeg( const char *filename, unsigned int p_colours, unsigned int p_subpixelorder);
 
 	bool WriteJpeg ( const char *filename) const;
-	bool WriteJpeg ( const char *filename, bool on_blocking_abort) const;	
+	bool WriteJpeg ( const char *filename, bool on_blocking_abort) const;
   bool WriteJpeg ( const char *filename, int quality_override ) const;
   bool WriteJpeg ( const char *filename, struct timeval timestamp ) const;
   bool WriteJpeg ( const char *filename, int quality_override, struct timeval timestamp ) const;
   bool WriteJpeg ( const char *filename, int quality_override, struct timeval timestamp, bool on_blocking_abort ) const;
-  
+
 
 	bool DecodeJpeg( const JOCTET *inbuffer, int inbuffer_size, unsigned int p_colours, unsigned int p_subpixelorder);
 	bool EncodeJpeg( JOCTET *outbuffer, int *outbuffer_size, int quality_override=0 ) const;
@@ -314,10 +314,6 @@ void sse2_delta8_rgba(const uint8_t* col1, const uint8_t* col2, uint8_t* result,
 void sse2_delta8_bgra(const uint8_t* col1, const uint8_t* col2, uint8_t* result, unsigned long count);
 void sse2_delta8_argb(const uint8_t* col1, const uint8_t* col2, uint8_t* result, unsigned long count);
 void sse2_delta8_abgr(const uint8_t* col1, const uint8_t* col2, uint8_t* result, unsigned long count);
-void ssse3_delta8_rgba(const uint8_t* col1, const uint8_t* col2, uint8_t* result, unsigned long count);
-void ssse3_delta8_bgra(const uint8_t* col1, const uint8_t* col2, uint8_t* result, unsigned long count);
-void ssse3_delta8_argb(const uint8_t* col1, const uint8_t* col2, uint8_t* result, unsigned long count);
-void ssse3_delta8_abgr(const uint8_t* col1, const uint8_t* col2, uint8_t* result, unsigned long count);
 
 /* Convert functions */
 void std_convert_rgb_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
@@ -327,20 +323,6 @@ void std_convert_bgra_gray8(const uint8_t* col1, uint8_t* result, unsigned long 
 void std_convert_argb_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
 void std_convert_abgr_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
 void std_convert_yuyv_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-
-void fast_convert_rgb_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void fast_convert_bgr_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void fast_convert_rgba_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void fast_convert_bgra_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void fast_convert_argb_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void fast_convert_abgr_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void fast_convert_yuyv_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-
-void ssse3_convert_rgba_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void ssse3_convert_bgra_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void ssse3_convert_argb_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void ssse3_convert_abgr_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
-void ssse3_convert_yuyv_gray8(const uint8_t* col1, uint8_t* result, unsigned long count);
 void zm_convert_yuyv_rgb(const uint8_t* col1, uint8_t* result, unsigned long count);
 void zm_convert_yuyv_rgba(const uint8_t* col1, uint8_t* result, unsigned long count);
 void zm_convert_rgb555_rgb(const uint8_t* col1, uint8_t* result, unsigned long count);
