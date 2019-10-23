@@ -1,4 +1,6 @@
 # If you are adding to this file, please ensure sorting is maintained. If using vim, you can use :%sort u
+.idea
+build*
 CMakeCache.txt
 CMakeFiles/
 Makefile
