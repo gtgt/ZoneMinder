@@ -2104,83 +2104,64 @@ void Image::DeColourise() {
   subpixelorder = ZM_SUBPIX_ORDER_NONE;
   size = width * height;
 
-  if ( colours == ZM_COLOUR_RGB32 && config.cpu_extensions && sseversion >= 35 ) {
-    /* Use SSSE3 functions */
-    switch (subpixelorder) {
-      case ZM_SUBPIX_ORDER_BGRA:
-        ssse3_convert_bgra_gray8(buffer,buffer,pixels);
-        break;
-      case ZM_SUBPIX_ORDER_ARGB:
-        ssse3_convert_argb_gray8(buffer,buffer,pixels);
-        break;
-      case ZM_SUBPIX_ORDER_ABGR:
-        ssse3_convert_abgr_gray8(buffer,buffer,pixels);
-        break;
-      case ZM_SUBPIX_ORDER_RGBA:
-      default:
-        ssse3_convert_rgba_gray8(buffer,buffer,pixels);
-        break;
-    }
-  } else {
-    /* Use standard functions */
-    if ( colours == ZM_COLOUR_RGB32 ) {
-      if ( pixels % 16 ) {
-        switch (subpixelorder) {
-          case ZM_SUBPIX_ORDER_BGRA:
-            std_convert_bgra_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_ARGB:
-            std_convert_argb_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_ABGR:
-            std_convert_abgr_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_RGBA:
-          default:
-            std_convert_rgba_gray8(buffer,buffer,pixels);
-            break;
-        }
-      } else {
-        switch (subpixelorder) {
-          case ZM_SUBPIX_ORDER_BGRA:
-            fast_convert_bgra_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_ARGB:
-            fast_convert_argb_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_ABGR:
-            fast_convert_abgr_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_RGBA:
-          default:
-            fast_convert_rgba_gray8(buffer,buffer,pixels);
-            break;
-        }
-      } // end if pixels % 16 to use loop unrolled functions
+  /* Use standard functions */
+  if ( colours == ZM_COLOUR_RGB32 ) {
+    if ( pixels % 16 ) {
+      switch (subpixelorder) {
+        case ZM_SUBPIX_ORDER_BGRA:
+          std_convert_bgra_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_ARGB:
+          std_convert_argb_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_ABGR:
+          std_convert_abgr_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_RGBA:
+        default:
+          std_convert_rgba_gray8(buffer,buffer,pixels);
+          break;
+      }
     } else {
-      /* Assume RGB24 */
-      if ( pixels % 12 ) {
-        switch (subpixelorder) {
-          case ZM_SUBPIX_ORDER_BGR:
-            std_convert_bgr_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_RGB:
-          default:
-            std_convert_rgb_gray8(buffer,buffer,pixels);
-            break;
-        }
-      } else {
-        switch (subpixelorder) {
-          case ZM_SUBPIX_ORDER_BGR:
-            fast_convert_bgr_gray8(buffer,buffer,pixels);
-            break;
-          case ZM_SUBPIX_ORDER_RGB:
-          default:
-            fast_convert_rgb_gray8(buffer,buffer,pixels);
-            break;
-        }
-      } // end if pixels % 12 to use loop unrolled functions
-    }
+      switch (subpixelorder) {
+        case ZM_SUBPIX_ORDER_BGRA:
+          fast_convert_bgra_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_ARGB:
+          fast_convert_argb_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_ABGR:
+          fast_convert_abgr_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_RGBA:
+        default:
+          fast_convert_rgba_gray8(buffer,buffer,pixels);
+          break;
+      }
+    } // end if pixels % 16 to use loop unrolled functions
+  } else {
+    /* Assume RGB24 */
+    if ( pixels % 12 ) {
+      switch (subpixelorder) {
+        case ZM_SUBPIX_ORDER_BGR:
+          std_convert_bgr_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_RGB:
+        default:
+          std_convert_rgb_gray8(buffer,buffer,pixels);
+          break;
+      }
+    } else {
+      switch (subpixelorder) {
+        case ZM_SUBPIX_ORDER_BGR:
+          fast_convert_bgr_gray8(buffer,buffer,pixels);
+          break;
+        case ZM_SUBPIX_ORDER_RGB:
+        default:
+          fast_convert_rgb_gray8(buffer,buffer,pixels);
+          break;
+      }
+    } // end if pixels % 12 to use loop unrolled functions
   }
 }
 
